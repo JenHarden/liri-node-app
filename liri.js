@@ -19,70 +19,55 @@ moment().format();
 
 const spotify = new Spotify(keys.spotify);
 
-// Used to pass user command inputs
-
-const userChoice = process.argv[2];
-const inputData = process.argv[3];
-
 // Initial prompts
 
-// function liriInput() {
-//     inquirer.prompt([{
-//         type: "list",
-//         message: "What would you like to do?",
-//         choices: ["Concert this", "Spotify this song", "Movie this", "Do what it says"],
-//         name: "userCommand",
-//     },
-//     {
-//         type: "confirm",
-//         message: "Are you sure?",
-//         name: "confirm",
-//         default: true
-//     }
-//     ]).then(function (inquirerResponse) {
-//         if (inquirerResponse.confirm) {
-//             switch (inquirerResponse.userCommand) {
-//                 case "Concert this":
-//                     getConcert();
-//                     break;
-//                 case "Spotify this song":
-//                     getSong();
-//                     break;
-//                 case "Movie this":
-//                     getMovie();
-//                     break;
-//                 case "Do what it says":
-//                     doIt();
-//                     break;
-//             }
-//         }
-//     })
-// }
+liriInput();
 
-// Initial LIRI inputs
+function dataLookUp (command, inputData) {
+        switch (command) {
+            case "Find a concert":
+                getConcert(inputData);
+                break;
+            case "Find a song":
+                getSong(inputData);
+                break;
+            case "Find a movie":
+                getMovie(inputData);
+                break;
+            case "Do what it says":
+                doIt();
+                break;
+    }
+}
 
-consoleInput(userChoice, inputData);
-
-// Function to switch between users initial choice
-
-function consoleInput(userChoice, inputData) {
-    switch (userChoice) {
-        case 'concert-this':
-            getConcert(inputData);
-            break;
-        case 'spotify-this-song':
-            getSong(inputData);
-            break;
-        case 'movie-this':
-            getMovie(inputData);
-            break;
-        case 'do-what-it-says':
-            doIt();
-            break;
-        default:
-            console.log("Invalid Option. Please type any of the following options: \nconcert-this \nspotify-this-song \nmovie-this \ndo-what-it-says")
-    };
-};
+function liriInput() {
+    inquirer.prompt([{
+        type: "list",
+        message: "What would you like to do?",
+        choices: ["Find a concert", "Find a song", "Find a movie", "Do what it says"],
+        name: "userCommand",
+    },
+    {
+        type: "input",
+        message: "What do you want to find?",
+        name: "inputData"
+    },
+    {
+        type: "confirm",
+        message: "Are you sure?",
+        name: "confirm",
+        default: true
+    }
+    ]).then(function (inquirerResponse) {
+        if (inquirerResponse.confirm) {
+            dataLookUp(inquirerResponse.userCommand, inquirerResponse.inputData);
+        }else{
+            console.log("\nThat is okay, come back again when you are ready.\n");
+            fs.appendFileSync("log.txt", "Not ready yet, I will be back\n");
+            liriInput();
+        };
+    });
+}
 
 // Function used for the "concert-this" command
 
@@ -92,11 +77,8 @@ function getConcert(inputData) {
     axios.get(queryUrl).then(function (response) {
         const concerts = response.data;
 
-        // const concertDt = concerts[0].datetime;
-        const momentDt = moment().format('L');
-
         for (var i = 0; i < concerts.length && i < 10; i++) {
-            console.log("-----Concert Information-----");
+            console.log("\n-----Concert Information-----");
 
             // This will append in log.txt file
 
@@ -107,12 +89,12 @@ function getConcert(inputData) {
             fs.appendFileSync("log.txt", "Name of the Venue: " + concerts[i].venue.name + "\n");
             console.log("Venue Location: " + concerts[i].venue.city);
             fs.appendFileSync("log.txt", "Venue Location: " + concerts[i].venue.city + "\n");
-            console.log("Date of the Event: " + concerts[i].datetime);
-            fs.appendFileSync("log.txt", "Date of the Event: " + concerts[i].datetime + "\n");
+            console.log("Date of the Event: " + moment(concerts[i].datetime).format('LLL'));
+            fs.appendFileSync("log.txt", "Date of the Event: " + moment(concerts[i].datetime).format('LLL') + "\n");
             console.log("--------------------");
             fs.appendFileSync("log.txt", "--------------------" + "\n");
         }
-
+        liriInput();
     })
         .catch(function (error) {
             if (error.response) {
@@ -135,8 +117,6 @@ function getConcert(inputData) {
             }
             console.log(error.config);
         });
-
-    // liriInput();
 };
 
 // Function used for the "spotify-this-song" command
@@ -145,7 +125,7 @@ function getSong(inputData) {
 
     // Default Song
 
-    if (inputData === undefined) {
+    if (inputData.length == 0) {
         inputData = "The Sign";
     }
     spotify.search(
@@ -161,7 +141,7 @@ function getSong(inputData) {
             const songs = data.tracks.items;
 
             for (var i = 0; i < songs.length && i < 10; i++) {
-                console.log("-----Song Information-----");
+                console.log("\n-----Song Information-----");
                 fs.appendFileSync("log.txt", "-----Song Information-----\n");
                 console.log(i);
                 fs.appendFileSync("log.txt", i + "\n");
@@ -176,11 +156,9 @@ function getSong(inputData) {
                 console.log("--------------------");
                 fs.appendFileSync("log.txt", "--------------------\n");
             };
+            liriInput();
         }
     );
-
-    // liriInput();
-
 };
 
 // Function used for the "movie-this" command
@@ -189,7 +167,7 @@ function getMovie(inputData) {
 
     // Default Movie
 
-    if (inputData === undefined) {
+    if (inputData.length == 0) {
         inputData = "Mr. Nobody"
         console.log("--------------------");
         fs.appendFileSync("log.txt", "--------------------\n");
@@ -202,7 +180,7 @@ function getMovie(inputData) {
 
     axios.get(queryUrl).then(function (response) {
         const movies = response.data;
-        console.log("-----Movie Information-----");
+        console.log("\n-----Movie Information-----");
         fs.appendFileSync("log.txt", "-----Movie Information-----\n");
         console.log("Title: " + movies.Title);
         fs.appendFileSync("log.txt", "Title: " + movies.Title + "\n");
@@ -210,8 +188,8 @@ function getMovie(inputData) {
         fs.appendFileSync("log.txt", "Release Year: " + movies.Year + "\n");
         console.log("IMDB Rating: " + movies.imdbRating);
         fs.appendFileSync("log.txt", "IMDB Rating: " + movies.imdbRating + "\n");
-        console.log("Rotten Tomatoes Rating: " + getRottenTomatoesRatingValue(movies));
-        fs.appendFileSync("log.txt", "Rotten Tomatoes Rating: " + getRottenTomatoesRatingValue(movies) + "\n");
+        console.log("Rotten Tomatoes Rating: " + rottenTomatoesValue(movies));
+        fs.appendFileSync("log.txt", "Rotten Tomatoes Rating: " + rottenTomatoesValue(movies) + "\n");
         console.log("Country of Production: " + movies.Country);
         fs.appendFileSync("log.txt", "Country of Production: " + movies.Country + "\n");
         console.log("Language: " + movies.Language);
@@ -222,6 +200,7 @@ function getMovie(inputData) {
         fs.appendFileSync("log.txt", "Actors: " + movies.Actors + "\n");
         console.log("--------------------");
         fs.appendFileSync("log.txt", "--------------------\n");
+        liriInput();
     })
         .catch(function (error) {
             if (error.response) {
@@ -244,38 +223,29 @@ function getMovie(inputData) {
             }
             console.log(error.config);
         });
-
-    // liriInput();
-
 };
 
 // Function to get a Rotten Tomatoes value instead of undefined (due to tomatoes on meter)
 
-function getRottenTomatoesRatingObject(data) {
+function rottenTomatoesObject(data) {
     return data.Ratings.find(function (item) {
         return item.Source === "Rotten Tomatoes";
     });
 };
 
-function getRottenTomatoesRatingValue(data) {
-    return getRottenTomatoesRatingObject(data).Value;
+function rottenTomatoesValue(data) {
+    return rottenTomatoesObject
+        (data).Value;
 };
 
 // Function for the "do-what-it-says" command
 
 function doIt() {
-    fs.readFile('random.txt', 'utf8', function (error, data) {
+    fs.readFile('./random.txt', 'utf8', function (error, data) {
         if (error) {
             return console.log("Error occurred: " + error);
         }
         const dataArr = data.split(',');
-        for (var i = 0; i < dataArr.length && i < 10; i++) {
-            console.log(dataArr[i]);
-        }
+        dataLookUp(dataArr[0], dataArr[1]);
     });
-
-    // liriInput();
-
 };
-
-// liriInput();
