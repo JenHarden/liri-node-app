@@ -5,6 +5,7 @@ LIRI is a Language Interpretation and Recognition Interface application.  LIRI i
 that takes in parameters and gives you data back.
 ```
 ### Technologies Used:
+```
     * node.js
     * node package manager (NPM)
         * FS
@@ -75,5 +76,9 @@ to protect the information.
 ```
 ### Screenshots
 ```
+This is a screenshot of the user prompts you will see and you will use your arrow keys to navigate to which command you would like to do:
+![image](https://github.com/JenHarden/liri-node-app/blob/master/images/2019-04-28%20user%20prompts.png)
 
+This is an example of "Find a concert".  I used the arrow keys to navigate to correct command, typed in the artist, and then confirmed the choice.
+![image](https://github.com/JenHarden/liri-node-app/blob/master/images/2019-04-28%20Find%20a%20concert.png)
 ```
