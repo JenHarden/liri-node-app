@@ -34,11 +34,12 @@ that takes in parameters and gives you data back.
         * If you chose "Find a concert", enter the name of the artist you would want concert information on.
         * If you chose "Find a song", enter the name of the song you want to find.
         * If you chose "Find a movie", enter the name of the movie you would like to find information on.
-        * If you chose "Do what it says", then you will get the results of the information on the local random.txt file.
+        * If you chose "Do what it says", then you will get the results of the information on the local 
+            random.txt file.
     3. Confirm if you wish to proceed:
         * If you confirm that you wish to continue, then you will see your results from your input above.
-        * If you decide not to proceed, then you will get a message to come back later and the app will take you back to
-            the user prompts again.
+        * If you decide not to proceed, then you will get a message to come back later and the app will take you 
+            back to the user prompts again.
 
 Each of the options chosen will produce different search results:
     * Find a concert:
@@ -63,22 +64,34 @@ Each of the options chosen will produce different search results:
         * Gives the results of the information on the local random.txt file
 
 These results will be viewable within the command line, but also stored locally within the log.txt file.
-
-***If you do not enter an input value for "Find the song", "Find the movie" and "Do what it says", you will see the default values for each.***
+**_If you do not enter an input value for "Find the song", "Find the movie" and "Do what it says", you 
+will see the default values for each._**
 ```
 ### Considerations
 ```
-The Spotify API requires the developer to sign up and generate a client ID and client secret (unique to the developer).
-As a safety precaution, the client ID and client secret are stored on a local .env file and then added to the local .gitignore file
-to protect the information.
+The Spotify API requires the developer to sign up and generate a client ID and client secret (unique to the 
+developer).  As a safety precaution, the client ID and client secret are stored on a local .env file and then 
+added to the local .gitignore file to protect the information.
 
-***If anyone wishes to clone this app from my github, to run it themselves, you will need to supply your own ".env" file for it to work.***
+**_If anyone wishes to clone this app from my github, to run it themselves, you will need to supply your own 
+".env" file for it to work._**
 ```
 ### Screenshots
 ```
-This is a screenshot of the user prompts you will see and you will use your arrow keys to navigate to which command you would like to do:
-![image](https://github.com/JenHarden/liri-node-app/blob/master/images/2019-04-28%20user%20prompts.png)
+This is a screenshot of the user prompts you will see and you will use your arrow keys to navigate to which 
+command you would like to do:
+![image](/images/userprompt.png)
 
-This is an example of "Find a concert".  I used the arrow keys to navigate to correct command, typed in the artist, and then confirmed the choice.
-![image](https://github.com/JenHarden/liri-node-app/blob/master/images/2019-04-28%20Find%20a%20concert.png)
+The below are examples of "Find a concert", "Find a song" and "Find a movie".  Using the arrow keys to navigate 
+to the correct command, type in the artist, and then confirm the choice.  The app is set to return 10 instances 
+of the search.
+![image](/images/findaconcert.png)
+![image](/images/findasong.png)
+![image](/images/findamovie.png)
+
+If you do not enter any input for "What do you want to find?", then the app will give you the default choices:
+![image](/images/findasongdefault.png)
+![image](/images/findamoviedefault.png)
+![image](/images/dowhatitsays.png)
+
 ```
