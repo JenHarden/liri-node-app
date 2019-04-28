@@ -64,23 +64,26 @@ Each of the options chosen will produce different search results:
         * Gives the results of the information on the local random.txt file
 
 These results will be viewable within the command line, but also stored locally within the log.txt file.
+```
+
 **_If you do not enter an input value for "Find the song", "Find the movie" and "Do what it says", you 
 will see the default values for each._**
-```
+
 ### Considerations
 ```
 The Spotify API requires the developer to sign up and generate a client ID and client secret (unique to the 
 developer).  As a safety precaution, the client ID and client secret are stored on a local .env file and then 
 added to the local .gitignore file to protect the information.
+```
 
 **_If anyone wishes to clone this app from my github, to run it themselves, you will need to supply your own 
 ".env" file for it to work._**
-```
+
 ### Screenshots
-```
+
 This is a screenshot of the user prompts you will see and you will use your arrow keys to navigate to which 
 command you would like to do:
-![image](/images/userprompt.png)
+![image](https://github.com/JenHarden/liri-node-app/blob/master/images/userprompts.png?raw=true)
 
 The below are examples of "Find a concert", "Find a song" and "Find a movie".  Using the arrow keys to navigate 
 to the correct command, type in the artist, and then confirm the choice.  The app is set to return 10 instances 
@@ -94,4 +97,3 @@ If you do not enter any input for "What do you want to find?", then the app will
 ![image](/images/findamoviedefault.png)
 ![image](/images/dowhatitsays.png)
 
-```
